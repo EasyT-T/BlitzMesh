@@ -26,6 +26,7 @@ public class BlitzMeshLoader
         serviceCollection.AddScoped<ITexturesParsingStep, TexturesParsingStep>();
         serviceCollection.AddScoped<IBrushesParsingStep, BrushesParsingStep>();
         serviceCollection.AddScoped<IAnimationsParsingStep, AnimationParsingStep>();
+        serviceCollection.AddScoped<IAnimatorParsingStep, AnimatorParsingStep>();
         serviceCollection.AddScoped<IBonesParsingStep, BonesParsingStep>();
         serviceCollection.AddScoped<IMeshParsingStep, MeshParsingStep>();
         serviceCollection.AddScoped<INodeParsingStep, NodeParsingStep>();

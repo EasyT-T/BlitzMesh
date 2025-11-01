@@ -56,7 +56,14 @@ public class BrushesParsingStep(IBasicReader reader, IMeshContext context) : IBr
 
             for (var i = 0; i < numTextures; i++)
             {
-                textures[i] = context.GetTexture(textureIds[i]);
+                var id = textureIds[i];
+
+                if (id < 0)
+                {
+                    continue;
+                }
+
+                textures[i] = context.GetTexture(id);
             }
 
             var brush = MeshFactory.Brush(name, color, shininess, blend, fx, [..textures]);

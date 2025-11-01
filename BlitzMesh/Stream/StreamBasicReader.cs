@@ -34,7 +34,7 @@ public sealed class StreamBasicReader(Stream stream, bool leaveOpen = false)
     public async Task<byte> ReadByteAsync()
     {
         using var memoryOwner = MemoryPool<byte>.Shared.Rent(sizeof(byte));
-        var buffer = memoryOwner.Memory;
+        var buffer = memoryOwner.Memory[..sizeof(byte)];
 
         var cnt = await stream.ReadAsync(buffer);
 
@@ -100,7 +100,7 @@ public sealed class StreamBasicReader(Stream stream, bool leaveOpen = false)
         using var stringBuilder = StringBuilderPool.Shared.Rent();
 
         using var memoryOwner = MemoryPool<byte>.Shared.Rent(8);
-        var buffer = memoryOwner.Memory;
+        var buffer = memoryOwner.Memory[..8];
 
         while (true)
         {
@@ -144,7 +144,7 @@ public sealed class StreamBasicReader(Stream stream, bool leaveOpen = false)
     public async Task<int> ReadIntAsync(CancellationToken cancellationToken = default)
     {
         using var memoryOwner = MemoryPool<byte>.Shared.Rent(sizeof(int));
-        var buffer = memoryOwner.Memory;
+        var buffer = memoryOwner.Memory[..sizeof(int)];
 
         var cnt = await stream.ReadAsync(buffer, cancellationToken);
         cancellationToken.ThrowIfCancellationRequested();
@@ -192,7 +192,7 @@ public sealed class StreamBasicReader(Stream stream, bool leaveOpen = false)
     public async Task<float> ReadFloatAsync(CancellationToken cancellationToken = default)
     {
         using var memoryOwner = MemoryPool<byte>.Shared.Rent(sizeof(float));
-        var buffer = memoryOwner.Memory;
+        var buffer = memoryOwner.Memory[..sizeof(float)];
 
         var cnt = await stream.ReadAsync(buffer, cancellationToken);
         cancellationToken.ThrowIfCancellationRequested();

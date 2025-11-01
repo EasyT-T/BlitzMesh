@@ -1,7 +1,7 @@
 ﻿namespace BlitzMesh.Enum;
 
 [Flags]
-public enum AnimationParsingFlags
+public enum AnimationParsingFlags : byte
 {
     HasPositionKeys = 1,
     HasScaleKeys = 2,

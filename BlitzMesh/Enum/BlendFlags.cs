@@ -1,6 +1,6 @@
 ﻿namespace BlitzMesh.Enum;
 
-public enum BlendFlags
+public enum BlendFlags : byte
 {
     BlendReplace = 0,
     BlendAlpha = 1,
