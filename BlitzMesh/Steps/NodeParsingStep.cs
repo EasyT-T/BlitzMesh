@@ -12,6 +12,7 @@ public class NodeParsingStep(
     IExitChunkStep exitChunkStep,
     IBonesParsingStep bonesParsingStep,
     IAnimationsParsingStep animationsParsingStep,
+    IAnimatorParsingStep animatorParsingStep,
     IMeshParsingStep meshParsingStep)
     : INodeParsingStep
 {
@@ -46,11 +47,7 @@ public class NodeParsingStep(
 
                     break;
                 case "ANIM":
-                    _ = reader.ReadInt();
-                    var frames = reader.ReadInt();
-                    var frameRate = reader.ReadFloat();
-
-                    animator = new Animator(frames, frameRate);
+                    animator = animatorParsingStep.Parse();
 
                     break;
                 case "NODE":
@@ -77,7 +74,7 @@ public class NodeParsingStep(
                     .SetLocalPosition(position)
                     .SetLocalScale(scale)
                     .SetLocalRotation(rotation)
-                )
+            )
             .SetAnimation(animation);
 
         if (animator != null)
@@ -119,11 +116,7 @@ public class NodeParsingStep(
 
                     break;
                 case "ANIM":
-                    _ = await reader.ReadIntAsync(cancellationToken);
-                    var frames = await reader.ReadIntAsync(cancellationToken);
-                    var frameRate = await reader.ReadFloatAsync(cancellationToken);
-
-                    animator = new Animator(frames, frameRate);
+                    animator = await animatorParsingStep.ParseAsync(cancellationToken);
 
                     break;
                 case "NODE":
@@ -150,7 +143,7 @@ public class NodeParsingStep(
                     .SetLocalPosition(position)
                     .SetLocalScale(scale)
                     .SetLocalRotation(rotation)
-                )
+            )
             .SetAnimation(animation);
 
         if (animator != null)
