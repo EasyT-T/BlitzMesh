@@ -36,7 +36,7 @@ public class BlitzMeshLoader
         return new BlitzMeshLoader(serviceCollection.BuildServiceProvider());
     }
 
-    public IWorldObject? Load(string filename)
+    public WorldObject? Load(string filename)
     {
         using var scope = this.serviceProvider.CreateScope();
         var scopeProvider = scope.ServiceProvider;
@@ -47,6 +47,20 @@ public class BlitzMeshLoader
 
         var parser = scopeProvider.GetRequiredService<IB3DParsingStep>();
 
-        return parser.Parse();
+        return (WorldObject?)parser.Parse();
+    }
+
+    public async Task<WorldObject?> LoadAsync(string filename)
+    {
+        await using var scope = this.serviceProvider.CreateAsyncScope();
+        var scopeProvider = scope.ServiceProvider;
+
+        var streamProvider = scopeProvider.GetRequiredService<IStreamProvider>();
+
+        streamProvider.SetFromFile(filename);
+
+        var parser = scopeProvider.GetRequiredService<IB3DParsingStep>();
+
+        return (WorldObject?)await parser.ParseAsync();
     }
 }
