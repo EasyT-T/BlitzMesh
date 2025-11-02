@@ -3,6 +3,7 @@
 using System.Collections.Immutable;
 using System.Numerics;
 using BlitzMesh.Enum;
+using BlitzMesh.Extension;
 using BlitzMesh.Factory;
 using BlitzMesh.Loader;
 using BlitzMesh.Node;
@@ -23,22 +24,21 @@ public class AnimationParsingStep(IBasicReader reader, IMeshContext context) : I
 
             if (flags.HasFlag(AnimationParsingFlags.HasPositionKeys))
             {
-                var position = new Vector3(reader.ReadFloatArray(3));
+                var position = reader.ReadVector3();
 
                 positions.Add(frame, position);
             }
 
             if (flags.HasFlag(AnimationParsingFlags.HasScaleKeys))
             {
-                var scale = new Vector3(reader.ReadFloatArray(3));
+                var scale = reader.ReadVector3();
 
                 scales.Add(frame, scale);
             }
 
             if (flags.HasFlag(AnimationParsingFlags.HasRotationKeys))
             {
-                var rotationArray = reader.ReadFloatArray(4);
-                var rotation = new Quaternion(rotationArray[0], rotationArray[1], rotationArray[2], rotationArray[3]);
+                var rotation = reader.ReadQuaternion();
 
                 rotations.Add(frame, rotation);
             }
@@ -66,22 +66,21 @@ public class AnimationParsingStep(IBasicReader reader, IMeshContext context) : I
 
             if (flags.HasFlag(AnimationParsingFlags.HasPositionKeys))
             {
-                var position = new Vector3(await reader.ReadFloatArrayAsync(3, cancellationToken));
+                var position = await reader.ReadVector3Async(cancellationToken);
 
                 positions.Add(frame, position);
             }
 
             if (flags.HasFlag(AnimationParsingFlags.HasScaleKeys))
             {
-                var scale = new Vector3(await reader.ReadFloatArrayAsync(3, cancellationToken));
+                var scale = await reader.ReadVector3Async(cancellationToken);
 
                 scales.Add(frame, scale);
             }
 
             if (flags.HasFlag(AnimationParsingFlags.HasRotationKeys))
             {
-                var rotationArray = await reader.ReadFloatArrayAsync(4, cancellationToken);
-                var rotation = new Quaternion(rotationArray[0], rotationArray[1], rotationArray[2], rotationArray[3]);
+                var rotation = await reader.ReadQuaternionAsync(cancellationToken);
 
                 rotations.Add(frame, rotation);
             }

@@ -22,10 +22,10 @@ public class VerticesParsingStep(IBasicReader reader, IMeshContext context) : IV
 
         while (context.GetChunkSize(reader.Position) > 0)
         {
-            var coordinate = new Vector3(reader.ReadFloatArray(3));
+            var coordinate = reader.ReadVector3();
 
             var normal = flags.HasFlag(VertexParsingFlags.HasNormal)
-                ? new Vector3(reader.ReadFloatArray(3))
+                ? reader.ReadVector3()
                 : Vector3.Zero;
 
             var color = flags.HasFlag(VertexParsingFlags.HasColor)
@@ -38,7 +38,7 @@ public class VerticesParsingStep(IBasicReader reader, IMeshContext context) : IV
             {
                 var tcArray = reader.ReadFloatArray(textureCoordinateSize);
 
-                textureCoordinates[i] = new Vector2(tcArray);
+                textureCoordinates[i] = new Vector2(tcArray[0], tcArray[1]);
             }
 
             var vertex = MeshFactory.Vertex(coordinate, normal, color, [..textureCoordinates]);
@@ -60,10 +60,10 @@ public class VerticesParsingStep(IBasicReader reader, IMeshContext context) : IV
 
         while (context.GetChunkSize(reader.Position) > 0)
         {
-            var coordinate = new Vector3(await reader.ReadFloatArrayAsync(3, cancellationToken));
+            var coordinate = await reader.ReadVector3Async(cancellationToken: cancellationToken);
 
             var normal = flags.HasFlag(VertexParsingFlags.HasNormal)
-                ? new Vector3(await reader.ReadFloatArrayAsync(3, cancellationToken))
+                ? await reader.ReadVector3Async(cancellationToken)
                 : Vector3.Zero;
 
             var color = flags.HasFlag(VertexParsingFlags.HasColor)
@@ -76,7 +76,7 @@ public class VerticesParsingStep(IBasicReader reader, IMeshContext context) : IV
             {
                 var tcArray = await reader.ReadFloatArrayAsync(textureCoordinateSize, cancellationToken);
 
-                textureCoordinates[i] = new Vector2(tcArray);
+                textureCoordinates[i] = new Vector2(tcArray[0], tcArray[1]);
             }
 
             var vertex = MeshFactory.Vertex(coordinate, normal, color, [..textureCoordinates]);

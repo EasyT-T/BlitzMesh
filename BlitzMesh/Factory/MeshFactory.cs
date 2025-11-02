@@ -26,7 +26,7 @@ public static class MeshFactory
     public static Transform WorldTransform { get; } =
         Transform(
             Vector3.Zero,
-            Quaternion.Zero,
+            Quaternion.Identity,
             Vector3.Zero);
 
     public static Animator NoneAnimator { get; } = Animator(0, 0);

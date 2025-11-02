@@ -1,6 +1,7 @@
 ﻿namespace BlitzMesh.Steps;
 
 using System.Numerics;
+using BlitzMesh.Extension;
 using BlitzMesh.Factory;
 using BlitzMesh.Loader;
 using BlitzMesh.Node;
@@ -19,10 +20,9 @@ public class NodeParsingStep(
     public IWorldObject Parse()
     {
         var name = reader.ReadString();
-        var position = new Vector3(reader.ReadFloatArray(3));
-        var scale = new Vector3(reader.ReadFloatArray(3));
-        var rotationArray = reader.ReadFloatArray(4);
-        var rotation = new Quaternion(rotationArray[0], rotationArray[1], rotationArray[2], rotationArray[3]);
+        var position = reader.ReadVector3();
+        var scale = reader.ReadVector3();
+        var rotation = reader.ReadQuaternion();
 
         IAnimation? animation = null;
         IAnimator? animator = null;
@@ -90,10 +90,9 @@ public class NodeParsingStep(
     public async Task<IWorldObject> ParseAsync(CancellationToken cancellationToken = default)
     {
         var name = await reader.ReadStringAsync(cancellationToken);
-        var position = new Vector3(await reader.ReadFloatArrayAsync(3, cancellationToken));
-        var scale = new Vector3(await reader.ReadFloatArrayAsync(3, cancellationToken));
-        var rotationArray = await reader.ReadFloatArrayAsync(4, cancellationToken);
-        var rotation = new Quaternion(rotationArray[0], rotationArray[1], rotationArray[2], rotationArray[3]);
+        var position = await reader.ReadVector3Async(cancellationToken);
+        var scale = await reader.ReadVector3Async(cancellationToken);
+        var rotation = await reader.ReadQuaternionAsync(cancellationToken);
 
         IAnimation? animation = null;
         IAnimator? animator = null;
