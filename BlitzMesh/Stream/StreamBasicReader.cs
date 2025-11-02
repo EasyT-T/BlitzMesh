@@ -6,7 +6,7 @@ using BlitzMesh.Pooling;
 using Stream = System.IO.Stream;
 
 public sealed class StreamBasicReader(Stream stream, bool leaveOpen = false)
-    : IBasicReader, IDisposable, IAsyncDisposable
+    : IBasicReader
 {
     public StreamBasicReader(IStreamProvider streamProvider, bool leaveOpen = false)
         : this(streamProvider.GetStream())
@@ -31,12 +31,13 @@ public sealed class StreamBasicReader(Stream stream, bool leaveOpen = false)
         return cnt == 0 ? throw new EndOfStreamException("Reached end of stream") : buffer[0];
     }
 
-    public async Task<byte> ReadByteAsync()
+    public async Task<byte> ReadByteAsync(CancellationToken cancellationToken = default)
     {
         using var memoryOwner = MemoryPool<byte>.Shared.Rent(sizeof(byte));
         var buffer = memoryOwner.Memory[..sizeof(byte)];
 
-        var cnt = await stream.ReadAsync(buffer);
+        var cnt = await stream.ReadAsync(buffer, cancellationToken);
+        cancellationToken.ThrowIfCancellationRequested();
 
         return cnt == 0 ? throw new EndOfStreamException("Reached end of stream") : buffer.Span[0];
     }
@@ -53,13 +54,13 @@ public sealed class StreamBasicReader(Stream stream, bool leaveOpen = false)
         return array;
     }
 
-    public async Task<byte[]> ReadByteArrayAsync(int length)
+    public async Task<byte[]> ReadByteArrayAsync(int length, CancellationToken cancellationToken = default)
     {
         var array = new byte[length];
 
         for (var i = 0; i < array.Length; i++)
         {
-            array[i] = await this.ReadByteAsync();
+            array[i] = await this.ReadByteAsync(cancellationToken);
         }
 
         return array;

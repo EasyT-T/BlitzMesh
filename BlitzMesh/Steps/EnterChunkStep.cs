@@ -15,7 +15,7 @@ public class EnterChunkStep(IBasicReader reader, IMeshContext context) : IEnterC
 
     public async Task ParseAsync(CancellationToken cancellationToken = default)
     {
-        var chunkName = Encoding.ASCII.GetString(await reader.ReadByteArrayAsync(4));
+        var chunkName = Encoding.ASCII.GetString(await reader.ReadByteArrayAsync(4, cancellationToken));
         var chunkSize = await reader.ReadIntAsync(cancellationToken);
 
         context.EnterChunk(chunkName, reader.Position + chunkSize);

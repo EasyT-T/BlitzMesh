@@ -10,11 +10,11 @@ public interface IBasicReader : IDisposable, IAsyncDisposable
 
     byte ReadByte();
 
-    Task<byte> ReadByteAsync();
+    Task<byte> ReadByteAsync(CancellationToken cancellationToken = default);
 
     byte[] ReadByteArray(int length);
 
-    Task<byte[]> ReadByteArrayAsync(int length);
+    Task<byte[]> ReadByteArrayAsync(int length, CancellationToken cancellationToken = default);
 
     string ReadString();
 
