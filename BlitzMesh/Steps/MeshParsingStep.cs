@@ -13,7 +13,7 @@ public class MeshParsingStep(
     IMeshContext context)
     : IMeshParsingStep
 {
-    public IWorldObject Parse()
+    public IMesh Parse()
     {
         var brushId = reader.ReadInt();
         var brush = brushId >= 0 ? context.GetBrush(brushId) : MeshFactory.DefaultBrush;
@@ -44,7 +44,7 @@ public class MeshParsingStep(
         return mesh;
     }
 
-    public async Task<IWorldObject> ParseAsync(CancellationToken cancellationToken = default)
+    public async Task<IMesh> ParseAsync(CancellationToken cancellationToken = default)
     {
         var brushId = await reader.ReadIntAsync(cancellationToken);
         var brush = brushId >= 0 ? context.GetBrush(brushId) : MeshFactory.DefaultBrush;

@@ -24,7 +24,7 @@ public interface IMeshContext
 
     void BeginMesh();
 
-    IWorldObject EndMesh(IBrush brush);
+    IMesh EndMesh(IBrush brush);
 
     void EnterChunk(string name, int endPosition);
 

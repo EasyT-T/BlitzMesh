@@ -12,7 +12,7 @@ public class Bone : IBone
 
     public float Weight { get; }
 
-    public Bone Update(IVertex vertex, float weight)
+    public IBone Update(IVertex vertex, float weight)
     {
         if (vertex == this.Vertex && Math.Abs(weight - this.Weight) < float.Epsilon)
         {
@@ -22,12 +22,12 @@ public class Bone : IBone
         return new Bone(vertex, weight);
     }
 
-    public Bone WithVertex(IVertex vertex)
+    public IBone WithVertex(IVertex vertex)
     {
         return this.Update(vertex, this.Weight);
     }
 
-    public Bone WithWeight(float weight)
+    public IBone WithWeight(float weight)
     {
         return this.Update(this.Vertex, weight);
     }

@@ -4,11 +4,21 @@ using System.Numerics;
 
 public interface ITransform
 {
-    ITransform SetParent(ITransform parent);
+    Vector3 LocalPosition { get; }
 
-    ITransform SetLocalPosition(Vector3 position);
+    Quaternion LocalRotation { get; }
 
-    ITransform SetLocalScale(Vector3 scale);
+    Vector3 LocalScale { get; }
 
-    ITransform SetLocalRotation(Quaternion rotation);
+    ITransform? Parent { get; }
+
+    ITransform Update(Vector3 position, Quaternion rotation, Vector3 scale, ITransform? parent);
+
+    ITransform WithPosition(Vector3 position);
+
+    ITransform WithRotation(Quaternion rotation);
+
+    ITransform WithScale(Vector3 scale);
+
+    ITransform WithParent(ITransform? parent);
 }

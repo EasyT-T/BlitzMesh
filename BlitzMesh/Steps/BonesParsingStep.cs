@@ -20,12 +20,7 @@ public class BonesParsingStep(IBasicReader reader, IMeshContext context) : IBone
             context.AddBone(bone);
         }
 
-        return MeshFactory.Object(
-            "Bone",
-            MeshFactory.WorldTransform,
-            MeshFactory.NoneAnimation,
-            MeshFactory.NoneAnimator,
-            []);
+        return MeshFactory.DefaultObject;
     }
 
     public async Task<IWorldObject> ParseAsync(CancellationToken cancellationToken = default)
@@ -42,11 +37,6 @@ public class BonesParsingStep(IBasicReader reader, IMeshContext context) : IBone
             context.AddBone(bone);
         }
 
-        return MeshFactory.Object(
-            "Bone",
-            MeshFactory.WorldTransform,
-            MeshFactory.NoneAnimation,
-            MeshFactory.NoneAnimator,
-            []);
+        return MeshFactory.DefaultObject;
     }
 }

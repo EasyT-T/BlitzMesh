@@ -27,7 +27,7 @@ public class Texture : ITexture
 
     public BlendFlags Blend { get; }
 
-    public Texture Update(
+    public ITexture Update(
         string filename,
         TextureFlag flag,
         Vector2 uv,
@@ -48,32 +48,32 @@ public class Texture : ITexture
         return new Texture(filename, flag, uv, rotation, scale, blend);
     }
 
-    public Texture WithFilename(string filename)
+    public ITexture WithFilename(string filename)
     {
         return this.Update(filename, this.Flag, this.Uv, this.Rotation, this.Scale, this.Blend);
     }
 
-    public Texture WithFlags(TextureFlag flag)
+    public ITexture WithFlags(TextureFlag flag)
     {
         return this.Update(this.Filename, flag, this.Uv, this.Rotation, this.Scale, this.Blend);
     }
 
-    public Texture WithUv(Vector2 uv)
+    public ITexture WithUv(Vector2 uv)
     {
         return this.Update(this.Filename, this.Flag, uv, this.Rotation, this.Scale, this.Blend);
     }
 
-    public Texture WithRotation(float rotation)
+    public ITexture WithRotation(float rotation)
     {
         return this.Update(this.Filename, this.Flag, this.Uv, rotation, this.Scale, this.Blend);
     }
 
-    public Texture WithScale(Vector2 scale)
+    public ITexture WithScale(Vector2 scale)
     {
         return this.Update(this.Filename, this.Flag, this.Uv, this.Rotation, scale, this.Blend);
     }
 
-    public Texture WithBlend(BlendFlags blend)
+    public ITexture WithBlend(BlendFlags blend)
     {
         return this.Update(this.Filename, this.Flag, this.Uv, this.Rotation, this.Scale, this.Blend);
     }

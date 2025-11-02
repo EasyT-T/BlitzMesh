@@ -18,7 +18,7 @@ public class Triangle : ITriangle
 
     public IBrush Brush { get; }
 
-    public Triangle Update(IVertex v1, IVertex v2, IVertex v3, IBrush brush)
+    public ITriangle Update(IVertex v1, IVertex v2, IVertex v3, IBrush brush)
     {
         if (v1 == this.VertexA && v2 == this.VertexB && v3 == this.VertexC && brush == this.Brush)
         {
@@ -28,12 +28,12 @@ public class Triangle : ITriangle
         return new Triangle(v1, v2, v3, brush);
     }
 
-    public Triangle WithVertices(IVertex v1, IVertex v2, IVertex v3)
+    public ITriangle WithVertices(IVertex v1, IVertex v2, IVertex v3)
     {
         return this.Update(v1, v2, v3, this.Brush);
     }
 
-    public Triangle WithBrush(IBrush brush)
+    public ITriangle WithBrush(IBrush brush)
     {
         return this.Update(this.VertexA, this.VertexB, this.VertexC, brush);
     }

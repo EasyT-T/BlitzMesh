@@ -20,7 +20,7 @@ public class Transform : ITransform
 
     public ITransform? Parent { get; }
 
-    public Transform Update(Vector3 position, Quaternion rotation, Vector3 scale, ITransform? parent)
+    public ITransform Update(Vector3 position, Quaternion rotation, Vector3 scale, ITransform? parent)
     {
         if (position == this.LocalPosition &&
             rotation == this.LocalRotation &&
@@ -33,43 +33,23 @@ public class Transform : ITransform
         return new Transform(position, rotation, scale, parent);
     }
 
-    public Transform WithPosition(Vector3 position)
+    public ITransform WithPosition(Vector3 position)
     {
         return this.Update(position, this.LocalRotation, this.LocalScale, this.Parent);
     }
 
-    public Transform WithRotation(Quaternion rotation)
+    public ITransform WithRotation(Quaternion rotation)
     {
         return this.Update(this.LocalPosition, rotation, this.LocalScale, this.Parent);
     }
 
-    public Transform WithScale(Vector3 scale)
+    public ITransform WithScale(Vector3 scale)
     {
         return this.Update(this.LocalPosition, this.LocalRotation, scale, this.Parent);
     }
 
-    public Transform WithParent(ITransform? parent)
+    public ITransform WithParent(ITransform? parent)
     {
         return this.Update(this.LocalPosition, this.LocalRotation, this.LocalScale, parent);
-    }
-
-    ITransform ITransform.SetParent(ITransform parent)
-    {
-        return this.WithParent(parent);
-    }
-
-    ITransform ITransform.SetLocalPosition(Vector3 position)
-    {
-        return this.WithPosition(position);
-    }
-
-    ITransform ITransform.SetLocalScale(Vector3 scale)
-    {
-        return this.WithScale(scale);
-    }
-
-    ITransform ITransform.SetLocalRotation(Quaternion rotation)
-    {
-        return this.WithRotation(rotation);
     }
 }

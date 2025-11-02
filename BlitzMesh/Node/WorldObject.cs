@@ -2,19 +2,22 @@
 
 using System.Collections.Immutable;
 
-public class WorldObject : IWorldObject
+public class WorldObject
+    : IWorldObject
 {
     internal WorldObject(
         string name,
         ITransform transform,
         IAnimation animation,
         IAnimator animator,
+        IMesh mesh,
         ImmutableArray<IWorldObject> children)
     {
         this.Name = name;
         this.Transform = transform;
         this.Animation = animation;
         this.Animator = animator;
+        this.Mesh = mesh;
         this.Children = children;
     }
 
@@ -26,13 +29,16 @@ public class WorldObject : IWorldObject
 
     public IAnimator Animator { get; }
 
+    public IMesh Mesh { get; }
+
     public ImmutableArray<IWorldObject> Children { get; }
 
-    public WorldObject Update(
+    public IWorldObject Update(
         string name,
         ITransform transform,
         IAnimation animation,
         IAnimator animator,
+        IMesh mesh,
         ImmutableArray<IWorldObject> children)
     {
         if (name == this.Name &&
@@ -44,61 +50,36 @@ public class WorldObject : IWorldObject
             return this;
         }
 
-        return new WorldObject(name, transform, animation, animator, children);
+        return new WorldObject(name, transform, animation, animator, mesh, children);
     }
 
-    public WorldObject WithName(string name)
+    public IWorldObject WithName(string name)
     {
-        return this.Update(name, this.Transform, this.Animation, this.Animator, this.Children);
+        return this.Update(name, this.Transform, this.Animation, this.Animator, this.Mesh, this.Children);
     }
 
-    public WorldObject WithTransform(ITransform transform)
+    public IWorldObject WithTransform(ITransform transform)
     {
-        return this.Update(this.Name, transform, this.Animation, this.Animator, this.Children);
+        return this.Update(this.Name, transform, this.Animation, this.Animator, this.Mesh, this.Children);
     }
 
-    public WorldObject WithAnimation(IAnimation animation)
+    public IWorldObject WithAnimation(IAnimation animation)
     {
-        return this.Update(this.Name, this.Transform, animation, this.Animator, this.Children);
+        return this.Update(this.Name, this.Transform, animation, this.Animator, this.Mesh, this.Children);
     }
 
-    public WorldObject WithChildren(ImmutableArray<IWorldObject> children)
+    public IWorldObject WithMesh(IMesh mesh)
     {
-        return this.Update(this.Name, this.Transform, this.Animation, this.Animator, children);
+        return this.Update(this.Name, this.Transform, this.Animation, this.Animator, mesh, this.Children);
     }
 
-    public WorldObject WithAnimator(IAnimator animator)
+    public IWorldObject WithChildren(ImmutableArray<IWorldObject> children)
     {
-        return this.Update(this.Name, this.Transform, this.Animation, animator, this.Children);
+        return this.Update(this.Name, this.Transform, this.Animation, this.Animator, this.Mesh, children);
     }
 
-    ITransform IWorldObject.GetTransform()
+    public IWorldObject WithAnimator(IAnimator animator)
     {
-        return this.Transform;
-    }
-
-    IWorldObject IWorldObject.SetTransform(ITransform transform)
-    {
-        return this.WithTransform(transform);
-    }
-
-    IWorldObject IWorldObject.AddChild(IWorldObject child)
-    {
-        return this.WithChildren(this.Children.Add(child));
-    }
-
-    IWorldObject IWorldObject.SetName(string name)
-    {
-        return this.WithName(name);
-    }
-
-    IWorldObject IWorldObject.SetAnimation(IAnimation animation)
-    {
-        return this.WithAnimation(animation);
-    }
-
-    IWorldObject IWorldObject.SetAnimator(IAnimator animator)
-    {
-        return this.WithAnimator(animator);
+        return this.Update(this.Name, this.Transform, this.Animation, animator, this.Mesh, this.Children);
     }
 }

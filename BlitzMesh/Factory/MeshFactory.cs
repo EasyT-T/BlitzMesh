@@ -31,12 +31,15 @@ public static class MeshFactory
 
     public static Animator NoneAnimator { get; } = Animator(0, 0);
 
+    public static Mesh NoneMesh { get; } = Mesh([], [], DefaultBrush);
+
     public static WorldObject DefaultObject { get; } =
         Object(
             "World",
             WorldTransform,
             NoneAnimation,
             NoneAnimator,
+            NoneMesh,
             []);
 
     public static Texture Texture(
@@ -103,21 +106,17 @@ public static class MeshFactory
         ITransform transform,
         IAnimation animation,
         IAnimator animator,
+        IMesh mesh,
         ImmutableArray<IWorldObject> children)
     {
-        return new WorldObject(name, transform, animation, animator, children);
+        return new WorldObject(name, transform, animation, animator, mesh, children);
     }
 
     public static Mesh Mesh(
-        string name,
-        ITransform transform,
-        IAnimation animation,
-        IAnimator animator,
-        ImmutableArray<IWorldObject> children,
         ImmutableArray<ITriangle> triangles,
         ImmutableArray<IBone> bones,
         IBrush brush)
     {
-        return new Mesh(name, transform, animation, animator, children, triangles, bones, brush);
+        return new Mesh(triangles, bones, brush);
     }
 }

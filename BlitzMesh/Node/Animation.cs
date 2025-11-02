@@ -21,7 +21,7 @@ public class Animation : IAnimation
 
     public ImmutableSortedDictionary<int, Quaternion> Rotations { get; }
 
-    public Animation Update(
+    public IAnimation Update(
         IImmutableDictionary<int, Vector3> positions,
         IImmutableDictionary<int, Vector3> scale,
         IImmutableDictionary<int, Quaternion> rotations)
@@ -34,17 +34,17 @@ public class Animation : IAnimation
         return new Animation(positions, scale, rotations);
     }
 
-    public Animation WithPositions(ImmutableSortedDictionary<int, Vector3> positions)
+    public IAnimation WithPositions(ImmutableSortedDictionary<int, Vector3> positions)
     {
         return this.Update(positions, this.Scale, this.Rotations);
     }
 
-    public Animation WithScale(ImmutableSortedDictionary<int, Vector3> scale)
+    public IAnimation WithScale(ImmutableSortedDictionary<int, Vector3> scale)
     {
         return this.Update(this.Positions, scale, this.Rotations);
     }
 
-    public Animation WithRotations(ImmutableSortedDictionary<int, Quaternion> rotations)
+    public IAnimation WithRotations(ImmutableSortedDictionary<int, Quaternion> rotations)
     {
         return this.Update(this.Positions, this.Scale, rotations);
     }

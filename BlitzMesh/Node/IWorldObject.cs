@@ -1,16 +1,38 @@
 ﻿namespace BlitzMesh.Node;
 
+using System.Collections.Immutable;
+
 public interface IWorldObject
 {
-    ITransform GetTransform();
+    public string Name { get; }
 
-    IWorldObject SetTransform(ITransform transform);
+    public ITransform Transform { get; }
 
-    IWorldObject AddChild(IWorldObject child);
+    public IAnimation Animation { get; }
 
-    IWorldObject SetName(string name);
+    public IAnimator Animator { get; }
 
-    IWorldObject SetAnimation(IAnimation animation);
+    public IMesh Mesh { get; }
 
-    IWorldObject SetAnimator(IAnimator animator);
+    public ImmutableArray<IWorldObject> Children { get; }
+
+    public IWorldObject Update(
+        string name,
+        ITransform transform,
+        IAnimation animation,
+        IAnimator animator,
+        IMesh mesh,
+        ImmutableArray<IWorldObject> children);
+
+    public IWorldObject WithName(string name);
+
+    public IWorldObject WithTransform(ITransform transform);
+
+    public IWorldObject WithAnimation(IAnimation animation);
+
+    public IWorldObject WithAnimator(IAnimator animator);
+
+    public IWorldObject WithMesh(IMesh mesh);
+
+    public IWorldObject WithChildren(ImmutableArray<IWorldObject> children);
 }

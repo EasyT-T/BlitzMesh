@@ -34,7 +34,7 @@ public class Brush : IBrush
 
     public ImmutableArray<ITexture> Textures { get; }
 
-    public Brush Update(
+    public IBrush Update(
         string name,
         Color color,
         float shininess,
@@ -55,32 +55,32 @@ public class Brush : IBrush
         return new Brush(name, color, shininess, blend, fx, textures);
     }
 
-    public Brush WithName(string name)
+    public IBrush WithName(string name)
     {
         return this.Update(name, this.Color, this.Shininess, this.Blend, this.Fx, this.Textures);
     }
 
-    public Brush WithColor(Color color)
+    public IBrush WithColor(Color color)
     {
         return this.Update(this.Name, color, this.Shininess, this.Blend, this.Fx, this.Textures);
     }
 
-    public Brush WithShininess(float shininess)
+    public IBrush WithShininess(float shininess)
     {
         return this.Update(this.Name, this.Color, shininess, this.Blend, this.Fx, this.Textures);
     }
 
-    public Brush WithBlend(BlendFlags blend)
+    public IBrush WithBlend(BlendFlags blend)
     {
         return this.Update(this.Name, this.Color, this.Shininess, blend, this.Fx, this.Textures);
     }
 
-    public Brush WithFx(FxFlags fx)
+    public IBrush WithFx(FxFlags fx)
     {
         return this.Update(this.Name, this.Color, this.Shininess, this.Blend, fx, this.Textures);
     }
 
-    public Brush WithTextures(ImmutableArray<ITexture> textures)
+    public IBrush WithTextures(ImmutableArray<ITexture> textures)
     {
         return this.Update(this.Name, this.Color, this.Shininess, this.Blend, this.Fx, textures);
     }

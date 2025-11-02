@@ -35,7 +35,9 @@ public class NodeParsingStep(
             switch (context.GetChunkName())
             {
                 case "MESH":
-                    obj = meshParsingStep.Parse();
+                    var mesh = meshParsingStep.Parse();
+
+                    obj = MeshFactory.DefaultObject.WithMesh(mesh);
 
                     break;
                 case "BONE":
@@ -54,9 +56,9 @@ public class NodeParsingStep(
                     obj ??= MeshFactory.DefaultObject;
 
                     var child = this.Parse();
-                    child = child.SetTransform(child.GetTransform().SetParent(obj.GetTransform()));
+                    child = child.WithTransform(child.Transform.WithParent(obj.Transform));
 
-                    obj = obj.AddChild(child);
+                    obj = obj.WithChildren(obj.Children.Add(child));
 
                     break;
             }
@@ -68,18 +70,18 @@ public class NodeParsingStep(
         animation ??= MeshFactory.NoneAnimation;
 
         obj = obj
-            .SetName(name)
-            .SetTransform(
-                obj.GetTransform()
-                    .SetLocalPosition(position)
-                    .SetLocalScale(scale)
-                    .SetLocalRotation(rotation)
+            .WithName(name)
+            .WithTransform(
+                obj.Transform
+                    .WithPosition(position)
+                    .WithScale(scale)
+                    .WithRotation(rotation)
             )
-            .SetAnimation(animation);
+            .WithAnimation(animation);
 
         if (animator != null)
         {
-            obj = obj.SetAnimator(animator);
+            obj = obj.WithAnimator(animator);
         }
 
         return obj;
@@ -104,7 +106,9 @@ public class NodeParsingStep(
             switch (context.GetChunkName())
             {
                 case "MESH":
-                    obj = await meshParsingStep.ParseAsync(cancellationToken);
+                    var mesh = await meshParsingStep.ParseAsync(cancellationToken);
+
+                    obj = MeshFactory.DefaultObject.WithMesh(mesh);
 
                     break;
                 case "BONE":
@@ -122,10 +126,10 @@ public class NodeParsingStep(
                 case "NODE":
                     obj ??= MeshFactory.DefaultObject;
 
-                    var child = this.Parse();
-                    child = child.SetTransform(child.GetTransform().SetParent(obj.GetTransform()));
+                    var child = await this.ParseAsync(cancellationToken);
+                    child = child.WithTransform(child.Transform.WithParent(obj.Transform));
 
-                    obj = obj.AddChild(child);
+                    obj = obj.WithChildren(obj.Children.Add(child));
 
                     break;
             }
@@ -137,18 +141,18 @@ public class NodeParsingStep(
         animation ??= MeshFactory.NoneAnimation;
 
         obj = obj
-            .SetName(name)
-            .SetTransform(
-                obj.GetTransform()
-                    .SetLocalPosition(position)
-                    .SetLocalScale(scale)
-                    .SetLocalRotation(rotation)
+            .WithName(name)
+            .WithTransform(
+                obj.Transform
+                    .WithPosition(position)
+                    .WithScale(scale)
+                    .WithRotation(rotation)
             )
-            .SetAnimation(animation);
+            .WithAnimation(animation);
 
         if (animator != null)
         {
-            obj = obj.SetAnimator(animator);
+            obj = obj.WithAnimator(animator);
         }
 
         return obj;

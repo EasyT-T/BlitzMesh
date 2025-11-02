@@ -12,7 +12,7 @@ public class Animator : IAnimator
 
     public float FrameRate { get; }
 
-    public Animator Update(int frames, float frameRate)
+    public IAnimator Update(int frames, float frameRate)
     {
         if (frames == this.Frames && Math.Abs(frameRate - this.FrameRate) < float.Epsilon)
         {
@@ -22,12 +22,12 @@ public class Animator : IAnimator
         return new Animator(frames, frameRate);
     }
 
-    public Animator WithFrames(int frames)
+    public IAnimator WithFrames(int frames)
     {
         return this.Update(frames, this.FrameRate);
     }
 
-    public Animator WithFrameRate(float frameRate)
+    public IAnimator WithFrameRate(float frameRate)
     {
         return this.Update(this.Frames, frameRate);
     }

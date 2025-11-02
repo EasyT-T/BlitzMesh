@@ -66,18 +66,10 @@ internal class MeshContext : IMeshContext
 
     public void BeginMesh()
     {
-        this.mesh = MeshFactory.Mesh(
-            "Mesh",
-            MeshFactory.WorldTransform,
-            MeshFactory.NoneAnimation,
-            MeshFactory.NoneAnimator,
-            [],
-            [],
-            [],
-            MeshFactory.DefaultBrush);
+        this.mesh = MeshFactory.NoneMesh;
     }
 
-    public IWorldObject EndMesh(IBrush brush)
+    public IMesh EndMesh(IBrush brush)
     {
         var result = this.mesh!
             .WithTriangles(

@@ -2,18 +2,12 @@
 
 using System.Collections.Immutable;
 
-public class Mesh : WorldObject
+public class Mesh : IMesh
 {
     internal Mesh(
-        string name,
-        ITransform transform,
-        IAnimation animation,
-        IAnimator animator,
-        ImmutableArray<IWorldObject> children,
         ImmutableArray<ITriangle> triangles,
         ImmutableArray<IBone> bones,
         IBrush brush)
-        : base(name, transform, animation, animator, children)
     {
         this.Triangles = triangles;
         this.Bones = bones;
@@ -26,27 +20,27 @@ public class Mesh : WorldObject
 
     public IBrush Brush { get; }
 
-    public Mesh Update(ImmutableArray<ITriangle> triangles, ImmutableArray<IBone> bones, IBrush brush)
+    public IMesh Update(ImmutableArray<ITriangle> triangles, ImmutableArray<IBone> bones, IBrush brush)
     {
         if (triangles == this.Triangles && bones == this.Bones && brush == this.Brush)
         {
             return this;
         }
 
-        return new Mesh(this.Name, this.Transform, this.Animation, this.Animator, this.Children, triangles, bones, brush);
+        return new Mesh(triangles, bones, brush);
     }
 
-    public Mesh WithTriangles(ImmutableArray<ITriangle> triangles)
+    public IMesh WithTriangles(ImmutableArray<ITriangle> triangles)
     {
         return this.Update(triangles, this.Bones, this.Brush);
     }
 
-    public Mesh WithBrush(IBrush brush)
+    public IMesh WithBrush(IBrush brush)
     {
         return this.Update(this.Triangles, this.Bones, brush);
     }
 
-    public Mesh WithBones(ImmutableArray<IBone> bones)
+    public IMesh WithBones(ImmutableArray<IBone> bones)
     {
         return this.Update(this.Triangles, bones, this.Brush);
     }

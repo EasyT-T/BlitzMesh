@@ -2,4 +2,4 @@
 
 using BlitzMesh.Node;
 
-public interface IMeshParsingStep : IParsingStep<IWorldObject>;
+public interface IMeshParsingStep : IParsingStep<IMesh>;
